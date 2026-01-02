@@ -1,13 +1,21 @@
+import ReservationCard from "@/components/ReservationCard";
+import { mockReservations } from "@/lib/mockReservations";
+
 export default function ReservationsPage() {
   return (
     <section>
-      <h2 className="text-2xl font-bold mb-4">
+      <h2 className="text-2xl font-bold mb-6">
         Reservations
       </h2>
 
-      <p className="text-gray-600">
-        Reservation list will go here
-      </p>
+      <div className="space-y-4">
+        {mockReservations.map((reservation) => (
+          <ReservationCard
+            key={reservation.id}
+            reservation={reservation}
+          />
+        ))}
+      </div>
     </section>
   );
 }
