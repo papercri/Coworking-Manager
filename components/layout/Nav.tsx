@@ -9,7 +9,7 @@ function Nav() {
             href="/" 
             className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
             >
-            Inicio
+            Home
             </Link>
         </li>
         <li>
@@ -17,7 +17,15 @@ function Nav() {
             href="/reservations" 
             className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
             >
-            Reservas
+            Reservations
+            </Link>
+        </li>
+        <li>
+            <Link 
+            href="/book" 
+            className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+            >
+            Book your space
             </Link>
         </li>
         
