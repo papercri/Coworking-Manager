@@ -3,6 +3,7 @@ import ReservationsClient from "@/components/ReservationsClient";
 
 export default async function ReservationsPage() {
   const reservations = await getReservations();
+ 
 
   return (
     <section>
