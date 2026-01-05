@@ -5,6 +5,7 @@ import { Reservation } from "@/types/reservation";
 import ReservationCard from "./ReservationCard";
 import ReservationForm from "./ReservationForm";
 import Modal from "@/components/layout/Modal";
+import ReservationFilters from "./ReservationFilters"; 
 
 interface Props {
   reservations: Reservation[];
@@ -12,22 +13,23 @@ interface Props {
 
 export default function ReservationsClient({ reservations }: Props) {
     const [filters, setFilters] = useState({
-        date: "",
+         sortOrder: "asc" as "asc" | "desc",
         status: "all",
         user: "",
     });
-    const filteredReservations = reservations.filter((r) => {
-    if (filters.status !== "all" && r.status !== filters.status)
-        return false;
-
-    if (filters.user && !r.userName.toLowerCase().includes(filters.user.toLowerCase()))
-        return false;
-
-    if (filters.date && r.date !== filters.date)
-        return false;
-
+   const filteredReservations = reservations.filter((r) => {
+    if (filters.status !== "all" && r.status !== filters.status) return false;
+    if (filters.user && !r.userName.toLowerCase().includes(filters.user.toLowerCase())) return false;
     return true;
     });
+    const sortedReservations = [...filteredReservations].sort((a, b) => {
+    if (filters.sortOrder === "asc") {
+        return a.date.localeCompare(b.date);
+    } else {
+        return b.date.localeCompare(a.date);
+    }
+    });
+
   const [selectedReservation, setSelectedReservation] =
     useState<Reservation | null>(null);
 
@@ -37,42 +39,13 @@ export default function ReservationsClient({ reservations }: Props) {
 
   return (
     <>
-    <div className="flex gap-4 mb-6">
-  <input
-    type="date"
-    value={filters.date}
-    onChange={(e) =>
-      setFilters({ ...filters, date: e.target.value })
-    }
-    className="border p-2 rounded"
-  />
-
-  <select
-    value={filters.status}
-    onChange={(e) =>
-      setFilters({ ...filters, status: e.target.value })
-    }
-    className="border p-2 rounded"
-  >
-    <option value="all">All</option>
-    <option value="confirmed">Confirmed</option>
-    <option value="pending">Pending</option>
-    <option value="cancelled">Cancelled</option>
-  </select>
-
-  <input
-    type="text"
-    placeholder="Filter by user"
-    value={filters.user}
-    onChange={(e) =>
-      setFilters({ ...filters, user: e.target.value })
-    }
-    className="border p-2 rounded"
-  />
-</div>
+    <ReservationFilters
+        filters={filters}
+        onChange={setFilters}
+      />
 
       <div className="space-y-4">
-        {filteredReservations.map((reservation) => (
+        {sortedReservations.map((reservation) => (
           <button
             key={reservation.id}
             onClick={() => setSelectedReservation(reservation)}
