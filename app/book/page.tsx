@@ -1,6 +1,5 @@
 "use client";
 
-import { Reservation, ReservationStatus } from "@/types/reservation";
 import NewReservationClient from "@/components/NewReservationClient";
 
 export default function BookPage() {

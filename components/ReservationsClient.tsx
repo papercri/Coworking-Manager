@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Reservation } from "@/types/reservation";
 import ReservationCard from "./ReservationCard";
 import ReservationForm from "./ReservationForm";
+import Modal from "@/components/layout/Modal";
 
 interface Props {
   reservations: Reservation[];
@@ -24,7 +25,7 @@ export default function ReservationsClient({ reservations }: Props) {
           <button
             key={reservation.id}
             onClick={() => setSelectedReservation(reservation)}
-            className="w-full text-left"
+            className="w-full text-left cursor-pointer"
           >
             <ReservationCard reservation={reservation} />
           </button>
@@ -32,29 +33,15 @@ export default function ReservationsClient({ reservations }: Props) {
       </div>
 
       {selectedReservation && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 bg-black/40 flex items-center justify-center"
+        <Modal
+            title="Edit reservation"
+            onClose={() => setSelectedReservation(null)}
         >
-          <div className="bg-white p-6 rounded-lg w-full max-w-md">
-            <h3 className="text-lg font-bold mb-4">
-              Edit reservation
-            </h3>
-
             <ReservationForm
-              initialData={selectedReservation}
-              onSuccess={closeModal}
+            initialData={selectedReservation}
+            onSuccess={() => setSelectedReservation(null)}
             />
-
-            <button
-              onClick={closeModal}
-              className="mt-4 text-sm underline"
-            >
-              Close
-            </button>
-          </div>
-        </div>
+        </Modal>
       )}
     </>
   );
