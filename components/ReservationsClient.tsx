@@ -81,8 +81,8 @@ export default function ReservationsClient({ reservations }: Props) {
           </div>
         ) : (
           <ReservationCalendar
-            reservations={sortedReservations}
-            onSelect={setSelectedReservation}
+            reservations={filteredReservations}
+            onSelectReservation={(r) => setSelectedReservation(r)}
           />
         )}
 
